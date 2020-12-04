@@ -1,0 +1,130 @@
+ type Query {
+        user(id: ID!): User
+        users: [User]!
+
+        product(id: ID!): Product
+        products: [Product]!
+        productAll: [Product]!
+
+        employee(id: ID!): Employee
+        employees: [Employee]!
+
+        department(id: ID!): Department
+        departments: [Department]!
+}
+
+
+type Mutation {
+    signUp(
+        name: String!, 
+        email: String!, 
+        password: String!
+        ): User
+    createProduct(
+        description: String! 
+        price: Float! 
+        imageUrl: String!
+        ): Product!
+    addToCart(id: ID!): CartItem!
+#! -----------^^-> id ของ Product
+    createCustomer(
+        customerCode: String!
+        customerName: String!
+        customerStatus: String!
+        ): Customer!
+    addEmployee(
+        inputEmployee:InputEmployee
+        ): Employee
+    addDepartment(resolversInputDepartment:InputDepartment): Department
+}
+# TODO <!-- เก็บเวลา  ต้องลง npm i graphql-iso-date--> 
+scalar Date
+
+# TODO <!-- User --> 
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    products: [Product] 
+    carts: [CartItem]!
+    customers: [Customer] 
+    manageCustomers: [ManageCustomer]!
+    createdAt: Date!
+}
+
+
+# TODO <!-- Product --> 
+type Product {
+    id: ID!
+    description: String!
+    price: Float!
+    imageUrl: String!
+    user: User!
+    createdAt: Date!
+}
+
+# TODO <!-- CartItem เก็บลูกค้า Add สินค้าอะไรไว้ในตะกร้าสินค้าบ้าง --> 
+type CartItem {
+    id: ID!
+    product: Product!
+    quantity: Int!
+    user: User!
+    createdAt: Date!
+}
+
+# TODO <!-- Employee --> 
+type Employee {
+    id: ID!
+    employeeID: String!
+    name: String!
+    lastName: String!
+    nameTH: String!
+    lastNameTH: String! #ตอนแรก ตัวแปรไม่ตรงกับดาต้าเบส
+    nickname: String!
+    email: String!
+    jobPosition: String!
+    age: String! 
+# * ว่างๆ แล้ว Add <!--   Department: Department! -->
+# * ว่างๆ แล้ว Add <!--   createdAt: Date! -->
+}
+input InputEmployee {
+    employeeID: String!
+    name: String!
+    lastName: String!
+    nameTH: String!
+    lastNameTH: String! 
+    nickname: String!
+    email: String!
+    jobPosition: String!
+    age: String! 
+}
+
+
+# TODO <!-- Department --> 
+type Department {
+    id: ID!
+    departID: String!
+    nameDepart: String!
+}
+input InputDepartment {
+    departID: String!
+    nameDepart: String!
+}
+
+
+type Customer {
+    id: ID!
+    customerCode: String!
+    customerName: String!
+    customerStatus: String!
+    user: User!
+    createdAt: Date!
+}
+type ManageCustomer {
+    id: ID!
+    customer: Customer!
+    supplyCode: String!
+    createdAt: Date!
+}
+
