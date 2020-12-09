@@ -1,6 +1,8 @@
 import fs from 'fs' //! เป็น build in module ของ Nodejs ใช้ อ่านไฟล์ schema.graphql แล้วก็แปลงมาเป็น String
 import path from 'path' //! เป็น build in module ของ Nodejs 
-import { ApolloServer } from 'apollo-server-express'
+import {
+    ApolloServer
+} from 'apollo-server-express'
 
 import resolvers from './resolvers'
 
@@ -12,7 +14,7 @@ const typeDefs = fs
 //! ------>    __filename จะได้ชื่อไฟล์ที่โปรแกรมมันทำงานอยู่
 
 const server = new ApolloServer({
-    typeDefs,  
+    typeDefs,
     resolvers
 })
 
