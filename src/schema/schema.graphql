@@ -37,7 +37,7 @@ type Mutation {
         ): Employee
     addDepartment(resolversInputDepartment:InputDepartment): Department
 }
-# TODO <!-- เก็บเวลา  ต้องลง npm i graphql-iso-date--> 
+# TODO <!-- เก็บเวลา  ต้องลง npm i graphql-iso-date --> 
 scalar Date
 
 # TODO <!-- User --> 

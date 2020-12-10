@@ -87,7 +87,51 @@ const Mutation = {
     },
 
     addToCart: async (parent, args, context, info) => {
-        //*  id 
+        //!  id --> productId
+        const { id } = args
+
+        try {
+            //! Find user who perform add to cart --> from logged in
+            const userId = "5fc9fb43a3e5cd1734e3fd7f"
+
+            //! Check if the new addToCart item is already in user.carts
+            const user = await User.findById(userId).populate({
+                path: "carts",
+                populate: { path: "product" }
+            })
+
+            const findCartItemIndex = user.carts.findIndex(cartItem => cartItem.product.id === id)
+
+            if (findCartItemIndex > -1) {
+                //! กรณี A. The new addToCart item is already in cart
+                //! กรณี A.1 Find the cartItem and Update in database
+                user.carts[findCartItemIndex].quantity += 1
+
+                await CartItem.findByIdAndUpdate(user.carts[findCartItemIndex].id, {
+                    quantity: user.carts[findCartItemIndex].quantity
+                })
+
+                //! กรณี A.2 Update quantity of that cartItem --> increase(เพิ่มขึ้น)
+                //!! กรณี A.2 Find updated cartItem
+                const updatedCartItem = await CartItem.findById(
+                    user.carts[findCartItemIndex].id
+                ).populate({
+                    path: "product"
+                })
+                    .populate({
+                        path: "user"
+                    })
+
+                return updatedCartItem
+
+            }
+
+            //! กรณี B. The new addToCart item is not in cart yet
+            //! กรณี B.1 Create new cartItem
+            //! กรณี B.2 Update user.carts
+        } catch (error) {
+            console.log(error)
+        }
     },
 
 
