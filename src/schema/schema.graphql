@@ -19,22 +19,29 @@ type Mutation {
         name: String!, 
         email: String!, 
         password: String!
-        ): User
+    ): User
     createProduct(
-        description: String! 
-        price: Float! 
+        description: String!
+        price: Float!
         imageUrl: String!
-        ): Product!
+    ): Product!
+    updateProduct(
+        id: ID!
+        description: String
+        price: Float
+        imageUrl: String
+    ): Product!
     addToCart(id: ID!): CartItem!
-#! -----------^^-> id ของ Product
+    #! -------^^-> id ของ Product
+    deleteCart(id: ID!): CartItem!
     createCustomer(
         customerCode: String!
         customerName: String!
         customerStatus: String!
-        ): Customer!
+    ): Customer!
     addEmployee(
         inputEmployee:InputEmployee
-        ): Employee
+    ): Employee
     addDepartment(resolversInputDepartment:InputDepartment): Department
 }
 # TODO <!-- เก็บเวลา  ต้องลง npm i graphql-iso-date --> 
@@ -56,8 +63,8 @@ type User {
 
 # TODO <!-- Product --> 
 type Product {
-    id: ID!
-    description: String!
+    id: ID! 
+    description: String! 
     price: Float!
     imageUrl: String!
     user: User!
