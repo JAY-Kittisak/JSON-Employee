@@ -1,4 +1,5 @@
  type Query {
+        login(email: String!, password: String!): AuthData
         user(id: ID!): User
         users: [User]!
 
@@ -135,3 +136,7 @@ type ManageCustomer {
     createdAt: Date!
 }
 
+type AuthData {
+    userId: ID
+    jwt: String
+}

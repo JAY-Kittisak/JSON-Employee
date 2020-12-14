@@ -5,6 +5,8 @@ import {
 } from 'apollo-server-express'
 
 import resolvers from './resolvers'
+import getUser from './utils/getUser'
+
 
 const typeDefs = fs
     .readFileSync(path.join(__dirname, './schema' , 'schema.graphql') , 'utf8')
@@ -15,7 +17,16 @@ const typeDefs = fs
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req }) => {
+        //* Check token from headers
+        const token = req.headers.authorization || ''
+
+        //* Extract userId from token
+        const userId = getUser(token)
+
+        return { userId }
+    }
 })
 
 export default server
